@@ -8,8 +8,6 @@ from save_file import save_file
 from database import engine, Base
 import models
 
-Base.metadata.create_all(bind=engine)
-
 
 from logic import(
     access_ciena_logic,
@@ -24,6 +22,12 @@ from logic import(
 
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 from fastapi.staticfiles import StaticFiles
+
+
+
+@app.on_event("startup")
+def on_startup():
+    Base.metadata.create_all(bind=engine)
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
