@@ -25,8 +25,16 @@ from logic import(
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 from fastapi.staticfiles import StaticFiles
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
+
+app.mount(
+    "/static",
+    StaticFiles(directory=os.path.join(BASE_DIR, "static")),
+    name="static"
+)
 
 # common circles
 circles = ["APR","ANE","BIH","DEL","GUJ","HAR","HPR","JNK","KAR","KER","MAH","MPC","MUM","ODI","PJB","RAJ","TNC","UPE","UPW","WBL"]
