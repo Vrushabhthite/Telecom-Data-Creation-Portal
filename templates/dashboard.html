@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+/* CONTENT AREA FIX */
+.content {
+    padding: 30px;
+}
+
+/* CARD CENTER FIX */
+.card {
+    margin: auto;
+}
+
+/* Better spacing */
+form label {
+    font-weight: 500;
+    color: #334155;
+}
+
+/* Improve input spacing */
+select, input {
+    margin-bottom: 12px;
+}
+
+/* Smooth hover */
+.sidebar a {
+    transition: all 0.2s ease;
+}
+
+/* Active sidebar auto highlight */
+.sidebar a.active {
+    background: #2563eb;
+    color: white;
+}
+
+/* Submenu animation */
+.submenu {
+    transition: all 0.3s ease;
+}
+
+/* Button animation */
+button {
+    transition: all 0.2s ease;
+}
+
+/* GRID SYSTEM */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 22px;
+    width: 800px;
+}
+
+/* GROUP */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+/* LABEL */
+.form-group label {
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+/* INPUTS */
+.form-group select,
+.form-group input {
+    height: 42px;
+    padding: 8px 10px;
+    border-radius: 8px;
+}
+
+/* BUTTON CENTER */
+/* Button */
+.generate-btn {
+    background: linear-gradient(90deg, #0d6efd, #2563eb);
+    color: white;
+    padding: 11px 30px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    transition: 0.3s;
+    min-width: 230px;
+}
+
+.generate-btn:hover {
+    background: linear-gradient(90deg, #0b5ed7, #1d4ed8);
+    transform: translateY(-2px);
+}
+.transfor-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    
+    color: #0d6efd;
+}
+
+/* RESPONSIVE */
+
+
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+<div class="card">
+<div class="transfor-title" >
+    CIRCLE WISE SPAN DATA GENRATION
+
+</div>
+
+<form action="/generate" method="POST" enctype="multipart/form-data">
+
+<div class="form-grid">
+
+    <!-- Circle -->
+    <div class="form-group">
+        <label>Circle</label>
+        <select name="circle" required>
+            <option value="APR">APR</option>
+            <option value="ANE">ANE</option>
+            <option value="BIH">BIH</option>
+            <option value="DEL">DEL</option>
+            <option value="GUJ">GUJ</option>
+            <option value="HAR">HAR</option>
+            <option value="HPR">HPR</option>
+            <option value="JNK">JNK</option>
+            <option value="KAR">KAR</option>
+            <option value="KER">KER</option>
+            <option value="MAH">MAH</option>
+            <option value="MPC">MPC</option>
+            <option value="MUM">MUM</option>
+            <option value="ODI">ODI</option>
+            <option value="PJB">PJB</option>
+            <option value="RAJ">RAJ</option>
+            <option value="TNC">TNC</option>
+            <option value="UPE">UPE</option>
+            <option value="UPW">UPW</option>
+            <option value="WBL">WBL</option>
+        </select>
+    </div>
+
+    <!-- OEM TYPE -->
+    <div class="form-group">
+        <label>OEM Type</label>
+        <select name="tech_type" id="tech_type" required>
+            <option value="">Select Type</option>
+            <option value="access">Access</option>
+            <option value="dwdm">DWDM</option>
+        </select>
+    </div>
+
+    <!-- OEM -->
+    <div class="form-group">
+        <label>OEM</label>
+        <select name="oem" id="oem" required>
+            <option value="">Select OEM</option>
+        </select>
+    </div>
+
+    <!-- SERVICE FILE -->
+    <div class="form-group">
+        <label>Service / Client File / WDM_Trail</label>
+        <input type="file" name="service_file">
+    </div>
+
+    <!-- TUNNEL FILE -->
+    <div class="form-group">
+        <label>Tunnel / Circuit File / Ason_Trail</label>
+        <input type="file" name="tunnel_file">
+    </div>
+
+     <div class="form-group">
+        <label>Tunnel / Circuit File / Single_path</label>
+        <input type="file" name="single_file">
+    </div>
+
+
+</div>
+
+<!-- BUTTON -->
+   <div class="text-center mt-4">
+                <button type="submit" class="generate-btn">
+                    Generate MAIN2 Output
+                </button>
+
+                {% if error %}
+                <div class="error-box">
+                    ⚠️ {{ error }}
+                </div>
+                {% endif %}
+            </div>
+
+</form>
+
+</div>
+
+<script>
+function toggleSubmenu(){
+const submenu=document.getElementById("transformSubmenu");
+submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+}
+
+const techSelect=document.getElementById("tech_type");
+const oemSelect=document.getElementById("oem");
+
+const oemOptions={
+access:[
+{value:"ciena",text:"Ciena"},
+{value:"eci",text:"ECI"},
+{value:"tejas",text:"Tejas"},
+{value:"huawei",text:"Huawei"}
+],
+dwdm:[
+{value:"nokia",text:"Nokia"},
+{value:"huawei",text:"Huawei"},
+{value:"zte",text:"ZTE"},
+{value:"ciena",text:"Ciena"}
+]
+};
+
+techSelect.addEventListener("change",function(){
+const selectedTech=this.value;
+oemSelect.innerHTML='<option value="">Select OEM</option>';
+
+if(oemOptions[selectedTech]){
+oemOptions[selectedTech].forEach(oem=>{
+const option=document.createElement("option");
+option.value=oem.value;
+option.textContent=oem.text;
+oemSelect.appendChild(option);
+});
+}
+});
+</script>
+
+{% endblock %}

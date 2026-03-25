@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.card {
+   
+    padding: 35px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    max-width: 900px;   /* 👈 not full width */
+}
+
+.card h2 {
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group select,
+.form-group input {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.btn-primary {
+    margin-top: 10px;
+    background: #2563eb;
+    color: white;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+}
+
+.transfor-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    
+    color: #0d6efd;
+}
+</style>
+
+<div class="card">
+    <div class="transfor-title">
+    VOXID DATA GENRATION
+</div>
+    <form action="/transform" method="POST" enctype="multipart/form-data">
+
+    <input type="hidden" name="transform_type" value="vooxid">
+
+    <div class="form-group">
+        <label>Circle</label>
+        <select name="circle" required>
+            <option value="">Select Circle</option>
+            {% for circle in circles %}
+                <option value="{{ circle }}">{{ circle }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Upload SPAN File</label>
+        <input type="file" name="input_file" required>
+    </div>
+
+    <button type="submit" class="btn-primary">
+        Generate Voxid Output
+    </button>
+{% if error %}
+<div style="background:#fee2e2;color:#b91c1c;padding:10px;border-radius:5px;margin-bottom:15px;">
+    ⚠️ {{ error }}
+</div>
+{% endif %}
+</form>
+
+</div>
+{% endblock %}

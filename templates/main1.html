@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+/* ===== GLOBAL ===== */
+body {
+    
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Wrapper */
+.main1-wrapper {
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Card */
+.main1-card {
+     background: var(--card-color);
+    color: var(--text-color);
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* Title */
+.main1-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #0d6efd;
+}
+
+/* Section Title */
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 35px;
+    margin-bottom: 15px;
+    padding-left: 12px;
+    border-left: 5px solid #0d6efd;
+    color: #1e293b;
+}
+
+/* Grid */
+.file-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 30px;
+}
+
+/* Form Group */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Labels */
+label {
+    font-weight: 500;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+/* Inputs */
+.form-control,
+.form-select {
+    height: 45px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+}
+
+/* File input */
+input[type="file"] {
+    padding: 10px;
+}
+
+/* Hover */
+input[type="file"]:hover {
+    border-color: #0d6efd;
+}
+
+/* Button */
+.generate-btn {
+    background: linear-gradient(90deg, #0d6efd, #2563eb);
+    color: white;
+    padding: 14px 40px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.3s;
+    min-width: 250px;
+}
+
+.generate-btn:hover {
+    background: linear-gradient(90deg, #0b5ed7, #1d4ed8);
+    transform: translateY(-2px);
+}
+
+/* Error */
+.error-box {
+    background: #fee2e2;
+    color: #b91c1c;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .file-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<div class="container mt-4 main1-wrapper">
+    <div class="main1-card">
+
+        <div class="main1-title">
+            MAIN1 - WAN + VOX Matching
+        </div>
+
+        <form action="/generate_main1" method="POST" enctype="multipart/form-data">
+
+            <!-- Circle -->
+            <div class="mb-4">
+                <label class="fw-bold">Circle</label>
+                <select name="circle" class="form-select w-40">
+                    {% for c in circles %}
+                        <option value="{{ c }}">{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- ACCESS -->
+            <div class="section-title">ACCESS Files</div>
+            <div class="file-grid">
+
+                <div class="form-group">
+                    <label>ECI File</label>
+                    <input type="file" name="eci_file" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Huawei File</label>
+                    <input type="file" name="huawei_file" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Ciena File</label>
+                    <input type="file" name="ciena_file" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Tejas File</label>
+                    <input type="file" name="tejas_file" class="form-control">
+                </div>
+
+            </div>
+
+            <!-- DWDM -->
+            <div class="section-title">DWDM Files</div>
+            <div class="file-grid">
+
+                <div class="form-group">
+                    <label>DWDM Huawei File</label>
+                    <input type="file" name="dwdm_huawei_file" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>DWDM Ciena File</label>
+                    <input type="file" name="dwdm_ciena_file" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>DWDM ZTE File</label>
+                    <input type="file" name="dwdm_zte_file" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>DWDM Nokia File</label>
+                    <input type="file" name="dwdm_nokia_file" class="form-control">
+                </div>
+
+            </div>
+
+            <!-- WAN -->
+            <div class="section-title">WAN File</div>
+            <div class="form-group mb-4">
+                <label>WAN File</label>
+                <input type="file" name="wan_file" class="form-control">
+            </div>
+
+            <!-- Button -->
+            <div class="text-center"><br>
+                <button type="submit" class="generate-btn">
+                    Generate MAIN1 Output
+                </button>
+
+                {% if error %}
+                <div class="error-box">
+                    ⚠️ {{ error }}
+                </div>
+                {% endif %}
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

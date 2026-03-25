@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>IOMS Enterprise Dashboard</title>
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+
+
+/* HEADER */
+
+.header{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:70px;
+background: linear-gradient(90deg, #3b82f6, #60a5fa);
+display:flex;
+align-items:center;
+padding:0 30px;
+font-size:18px;
+font-weight:600;
+z-index:1000;
+}
+/* SIDEBAR */
+
+.sidebar{
+position:fixed;
+top:60px;
+left:0;
+width:220px;
+height:calc(100vh - 60px);
+background:#111827;
+padding-top:20px;
+overflow-y:auto;
+}
+
+.sidebar a{
+display:block;
+padding:14px 20px;
+color:#cbd5e1;
+text-decoration:none;
+font-size:14px;
+transition:0.3s;
+}
+
+.sidebar a:hover{
+background:#2563eb;
+color:white;
+}
+
+.sidebar a.active{
+background:#2563eb;
+color:white;
+}
+
+/* MENU */
+
+.menu-item{
+color:#cbd5e1;
+}
+
+.menu-title{
+padding:14px 20px;
+cursor:pointer;
+font-size:14px;
+transition:0.3s;
+}
+
+.menu-title:hover{
+background:#1e40af;
+color:white;
+}
+
+.submenu{
+display:none;
+flex-direction:column;
+background:#0f172a;
+}
+
+.submenu a{
+padding:10px 40px;
+font-size:13px;
+color:#94a3b8;
+}
+
+.submenu a:hover{
+background:#2563eb;
+color:white;
+}
+
+/* CONTENT */
+
+.content{
+margin-top:60px;
+margin-left:220px;
+padding:30px;
+min-height:calc(100vh - 60px);
+}
+
+/* CARD */
+
+.card{
+background:white;
+padding:30px;
+border-radius:8px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+
+button:hover{
+background:#1e40af;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/*dark mode*/
+
+/* ===== LIGHT MODE ===== */
+:root {
+    --bg-color: #f1f5f9;
+    --card-color: #ffffff;
+    --text-color: #111827;
+    --header-bg: linear-gradient(90deg, #3b82f6, #60a5fa);
+    --sidebar-bg: #111827;
+    --sidebar-text: #cbd5e1;
+    --input-bg: #ffffff;
+    --border-color: #cbd5e1;
+    --primary: #2563eb;
+}
+
+/* ===== DARK MODE ===== */
+.dark-mode {
+    --bg-color: #0f172a;
+    --card-color: #1e293b;
+    --text-color: #e2e8f0;
+    --header-bg: linear-gradient(90deg, #1e293b, #334155);
+    --sidebar-bg: #020617;
+    --sidebar-text: #94a3b8;
+    --input-bg: #334155;
+    --border-color: #475569;
+    --primary: #3b82f6;
+}
+
+/* ===== APPLY ===== */
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.header {
+    background: var(--header-bg);
+    color: white;
+}
+
+.sidebar {
+    background: var(--sidebar-bg);
+}
+
+.sidebar a {
+    color: var(--sidebar-text);
+}
+
+.card {
+    background: var(--card-color);
+}
+
+input, select {
+    background: var(--input-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+button {
+    background: var(--primary);
+    color: white;
+}
+
+/* #themeBtn {
+    background: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+} */
+
+
+ /*them switcher*/
+
+ /* SWITCH CONTAINER */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+
+/* HIDE DEFAULT CHECKBOX */
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* SLIDER */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #cbd5e1;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+/* CIRCLE */
+.slider:before {
+    position: absolute;
+    content: "🌙";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.4s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+/* WHEN ACTIVE */
+input:checked + .slider {
+    background: #2563eb;
+}
+
+/* MOVE CIRCLE */
+input:checked + .slider:before {
+    transform: translateX(24px);
+    content: "☀️";
+}
+
+/* LOGOUT BUTTON (LIGHT MODE) */
+.logout-btn {
+    background: #ef4444;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+/* HOVER */
+.logout-btn:hover {
+    background: #dc2626;
+}
+
+/* DARK MODE LOGOUT BUTTON */
+.dark-mode .logout-btn {
+    background: #f87171;   /* lighter red */
+    color: #111827;
+}
+
+.dark-mode .logout-btn:hover {
+    background: #ef4444;
+    color: white;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+    <span>IOMS DATA CREATION DASHBOARD</span>
+
+    <div style="display:flex; align-items:center; gap:15px;">
+        <label class="theme-switch">
+    <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+    <span class="slider"></span>
+</label>
+
+        <span>👤 {{ user }}</span>
+        <a href="/logout" class="logout-btn">Logout</a>
+    </div>
+</div>
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+<a href="/dashboard">Dashboard</a>
+<!-- <a href="/dashboard">SPAN Data</a> -->
+ <a href="/poc">POC Data</a> 
+ <!-- <a href="/wandb">WAN DB Data</a>  -->
+ <a href="/main1">Main1 Logic</a> 
+ <a href="/main2">Main2 Logic</a>
+
+<div class="menu-item">
+
+<div class="menu-title" onclick="toggleSubmenu()">
+Transform Data ▾
+</div>
+
+<div id="transformSubmenu" class="submenu">
+
+
+<a href="/Exclation_Matrix">• Exclation Matrix</a>
+<a href="/Super_BSC">• Super BSC</a>
+<a href="/Super_Router">• Super Router</a>
+<a href="/Super_wan">• Super WAN</a>
+<a href="/Voxid">• Voxid Data</a>
+
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+{% block content %}
+{% endblock %}
+
+</div>
+
+<script>
+
+function toggleSubmenu(){
+
+var submenu=document.getElementById("transformSubmenu");
+
+if(submenu.style.display==="flex"){
+submenu.style.display="none";
+}else{
+submenu.style.display="flex";
+}
+
+}
+
+window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+
+
+
+
+
+// Apply saved theme on load
+window.onload = function () {
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark-mode");
+        document.getElementById("themeBtn").innerText = "☀️";
+    }
+};
+
+// Toggle function
+function toggleTheme() {
+    document.body.classList.toggle("dark-mode");
+
+    const isDark = document.body.classList.contains("dark-mode");
+
+    // Save in localStorage
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    // Change icon
+    document.getElementById("themeBtn").innerText = isDark ? "☀️" : "🌙";
+}
+
+
+</script>
+
+</body>
+</html>

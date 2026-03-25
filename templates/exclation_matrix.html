@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.module-card {
+    
+    padding:35px;
+    border-radius:10px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    max-width:900px;
+}
+
+.module-card h2 {
+    margin-bottom:30px;
+}
+
+.field-group {
+    margin-bottom:25px;
+}
+
+.field-group label {
+    display:block;
+    margin-bottom:8px;
+    font-weight:500;
+}
+
+.field-group select,
+.field-group input {
+    width:75%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+.submit-btn {
+    background:#2563eb;
+    color:white;
+    padding:12px 22px;
+    border:none;
+    border-radius:8px;
+    font-weight:600;
+    cursor:pointer;
+}
+
+.submit-btn:hover {
+    background:#1d4ed8;
+}
+
+.transfor-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    
+    color: #0d6efd;
+}
+</style>
+
+<div class="module-card">
+    <div class="transfor-title">
+        EXCLATION MATRIX DATA GENRATION
+    </div>
+    <form action="/transform" method="POST" enctype="multipart/form-data">
+
+    <input type="hidden" name="transform_type" value="exclation">
+
+    <div class="field-group">
+        <label>Circle</label>
+        <select name="circle" required>
+            <option value="">Select Circle</option>
+            {% for circle in circles %}
+            <option value="{{ circle }}">{{ circle }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="field-group">
+        <label>Upload SPAN DATA File</label>
+        <input type="file" name="input_file" required>
+    </div>
+
+    <button type="submit" class="submit-btn">
+        Generate Exclation Output
+    </button>
+    {% if error %}
+<div style="background:#fee2e2;color:#b91c1c;padding:10px;border-radius:5px;margin-bottom:15px;">
+    ⚠️ {{ error }}
+</div>
+{% endif %}
+</form>
+</div>
+
+{% endblock %}

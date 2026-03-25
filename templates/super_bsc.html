@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+.bsc-card {
+   
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.08);
+    max-width: 900px;
+}
+
+.bsc-card h2 {
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.bsc-group {
+    margin-bottom: 25px;
+}
+
+.bsc-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.bsc-group select,
+.bsc-group input {
+    width: 75%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.bsc-group select:focus,
+.bsc-group input:focus {
+    border-color: #2563eb;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.bsc-btn {
+    background: #2563eb;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.bsc-btn:hover {
+    background: #1d4ed8;
+}
+
+.transfor-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    
+    color: #0d6efd;
+}
+</style>
+
+<div class="bsc-card">
+    <div class="transfor-title"> 
+           SUPER BSC DATA GENRATION
+     </div>
+
+<form action="/transform" method="POST" enctype="multipart/form-data">
+
+    <input type="hidden" name="transform_type" value="bsc">
+
+    <div class="bsc-group">
+        <label>Circle</label>
+        <select name="circle" required>
+            <option value="">Select Circle</option>
+            {% for circle in circles %}
+                <option value="{{ circle }}">{{ circle }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="bsc-group">
+        <label>Upload SPAN DATA File</label>
+        <input type="file" name="input_file" required>
+    </div>
+
+    <button type="submit" class="bsc-btn">
+        Generate Super BSC Output
+    </button>
+{% if error %}
+<div style="background:#fee2e2;color:#b91c1c;padding:10px;border-radius:5px;margin-bottom:15px;">
+    ⚠️ {{ error }}
+</div>
+{% endif %}
+</form>
+</div>
+
+{% endblock %}
