@@ -1,15 +1,14 @@
 
+import os
 
 from fastapi import FastAPI, UploadFile, File, Form, Request
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from save_file import save_file
-from database import engine
-from models import Base
-import os
+from database import engine, Base
+import models
 
 Base.metadata.create_all(bind=engine)
-
 
 
 from logic import(
